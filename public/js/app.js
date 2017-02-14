@@ -1,16 +1,17 @@
 var socket = io();
+var $messages = jQuery('div#message-contents');
+var $form = jQuery('#message-form');
 
 socket.on('connect', function() {
 	console.log('Connected to server');
 });
 
 socket.on('message', function(message) {
-	console.log('New message:');
+  $messages.append('<p>Stranger: ' + message.text + '</p>');
 	console.log(message.text);
 });
 
 // On sumbit of message
-var $form = jQuery('#message-form');
 
 $form.on('submit', function(event) {
   event.preventDefault();
@@ -19,6 +20,8 @@ $form.on('submit', function(event) {
   socket.emit('message', {
     text: $message.val()
   });
-  
+
+
+  $messages.append('<p>Me: ' + $message.val() + '</p>');
   $message.val('').focus();
 });
