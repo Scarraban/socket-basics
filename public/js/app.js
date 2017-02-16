@@ -7,7 +7,8 @@ socket.on('connect', function() {
 });
 
 socket.on('message', function(message) {
-  $messages.append('<p>Stranger: ' + message.text + '</p>');
+  var ts = moment.utc(message.timestamp).local().format('h:mma');
+  $messages.append('<p><strong>(' + ts + ')</strong> Stranger: ' + message.text + '</p>');
 	console.log(message.text);
 });
 
@@ -18,10 +19,10 @@ $form.on('submit', function(event) {
   $message = $form.find('input[name=message]');
 
   socket.emit('message', {
-    text: $message.val()
+    text: $message.val(),
   });
 
-
-  $messages.append('<p>Me: ' + $message.val() + '</p>');
+  ts = moment.utc(moment().valueOf()).local().format('h:mma');
+  $messages.append('<p><strong>(' + ts + ')</strong> Me: ' + $message.val() + '</p>');
   $message.val('').focus();
 });
