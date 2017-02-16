@@ -8,7 +8,7 @@ var room = getQueryVariable('room') || 'General';
 $title.text('Room: ' + room);
 
 socket.on('connect', function() {
-	console.log('Connected to server');
+  console.log('Connected to server');
   socket.emit('joinRoom', {
     name: name,
     room: room
@@ -17,9 +17,9 @@ socket.on('connect', function() {
 
 socket.on('message', function(message) {
   var ts = moment.utc(message.timestamp).local().format('h:mma');
-  $messages.append('<p><strong>(' + ts + ') '+message.name+':</strong></p>');
+  $messages.append('<p><strong>(' + ts + ') ' + message.name + ':</strong></p>');
   $messages.append('<p>' + message.text + '</p>');
-	console.log(message.text);
+  console.log(message.text);
 });
 
 // On sumbit of message
