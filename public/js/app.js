@@ -1,13 +1,18 @@
 var socket = io();
 var $messages = jQuery('div#message-contents');
 var $form = jQuery('#message-form');
+var $title = jQuery('h1.room-title');
 
 var name = getQueryVariable('name') || 'Stranger';
-var room = getQueryVariable('room');
-$messages.append(name + ' joined ' + room);
+var room = getQueryVariable('room') || 'General';
+$title.text('Room: ' + room);
 
 socket.on('connect', function() {
 	console.log('Connected to server');
+  socket.emit('joinRoom', {
+    name: name,
+    room: room
+  });
 });
 
 socket.on('message', function(message) {
@@ -28,8 +33,5 @@ $form.on('submit', function(event) {
     name: name
   });
 
-  ts = moment.utc(moment().valueOf()).local().format('h:mma');
-  $messages.append('<p><strong>(' + ts + ') '+name+': </strong></p>');
-  $messages.append('<p>'+ $message.val() + '</p>');
   $message.val('').focus();
 });
