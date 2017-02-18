@@ -1,5 +1,5 @@
 var socket = io();
-var $messages = jQuery('div#message-contents');
+var $messages = jQuery('div#message-contents > ul.list-group');
 var $form = jQuery('#message-form');
 var $title = jQuery('h1.room-title');
 
@@ -17,8 +17,8 @@ socket.on('connect', function() {
 
 socket.on('message', function(message) {
   var ts = moment.utc(message.timestamp).local().format('h:mma');
-  $messages.append('<p><strong>(' + ts + ') ' + message.name + ':</strong></p>');
-  $messages.append('<p>' + message.text + '</p>');
+  $messages.append('<li class="list-group-item list-group-item-info"><strong>(' + ts + ') ' + message.name + ':</strong></li>');
+  $messages.append('<li class="list-group-item">' + message.text + '</;o>');
   console.log(message.text);
 });
 
